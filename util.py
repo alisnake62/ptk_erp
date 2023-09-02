@@ -20,7 +20,7 @@ class ERP_Util:
             stocks.append(stock)
 
         if sorted_by_volume:
-            stocks = sorted(stocks, key=lambda d: d['value'], reverse=True) 
+            stocks = sorted(stocks, key=lambda d: d['value']) 
 
         return stocks
 

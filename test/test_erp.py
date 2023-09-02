@@ -40,17 +40,32 @@ class TestERP:
         erp.current_API.get_products.return_value = fake_legacy_products
         stocks = erp.get_stocks()
 
-        expected_stock = [
-            {
-                "value": 73254,
-                "product_id": "3",
-                "product_name": "Rufus Pacocha"
-            },
+        expected_stocks = [
             {
                 "value": 1609,
                 "product_id": "53",
                 "product_name": "Paula Hodkiewicz"
+            },
+            {
+                "value": 73254,
+                "product_id": "3",
+                "product_name": "Rufus Pacocha"
             }
         ]
 
-        assert stocks == expected_stock
+        assert stocks == expected_stocks
+
+    def test_get_stock(self, mocker):
+
+        erp = ERP_Util()
+        erp.current_API = mocker.MagicMock()
+        erp.current_API.get_products.return_value = fake_legacy_products
+        stock = erp.get_stock(product_id="53")
+
+        expected_stock = {
+            "value": 1609,
+            "product_id": "53",
+            "product_name": "Paula Hodkiewicz"
+        }
+
+        assert stock == expected_stock
