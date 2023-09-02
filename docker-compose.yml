@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+
+  ptk_erp:
+    build:
+      context: .
+    container_name: ptk_erp
+    command: "poetry run flask run --host=0.0.0.0"
+    restart: always
+    environment:
+      FLASK_APP: main.py
+      FLASK_DEBUG: 1
+      FLASK_ENV: development
+      APP_PATH: /usr/src/app/
+      APP_ENV: docker
+      APP_MODE: normal
+    ports:
+      - 8111:5000
+    volumes:
+      - .:/usr/src/app
+
+  pytest_ptk_erp:
+    build:
+      context: .
+    container_name: pytest_ptk_erp
+    command: "poetry run pytest"
+    environment:
+      FLASK_APP: main.py
+      FLASK_DEBUG: 1
+      FLASK_ENV: development
+      APP_PATH: /usr/src/app/
+      APP_ENV: docker
+      APP_MODE: normal
+    volumes:
+      - .:/usr/src/app
+
+
+volumes:
+  data:

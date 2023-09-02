@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "ptk-erp"
+version = "0.1.0"
+description = ""
+authors = ["clement <clementsergent@yahoo.fr>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+flask = "^2.3.3"
+requests = "^2.31.0"
+pydantic = "^2.3.0"
+pytest = "^7.4.0"
+pytest-mock = "^3.11.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
