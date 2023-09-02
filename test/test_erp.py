@@ -31,7 +31,7 @@ fake_legacy_products = [
 class TestERP:
 
     def test_True(self, mocker):
-        assert False # Test 5
+        assert True # Test 6
 
     def test_get_stocks(self, mocker):
 
