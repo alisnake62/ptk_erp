@@ -1,6 +1,6 @@
 import requests
 
-class Legacy_API:
+class Legacy:
 
     host = "https://615f5fb4f7254d0017068109.mockapi.io/api/v1"
 
@@ -19,6 +19,11 @@ class Legacy_API:
     def get_customer(self, customer_id: str) -> dict:
 
         url = f"{self.host}/customers/{customer_id}"
+        return self._request(url=url)
+
+    def get_orders(self, customer_id: str) -> list:
+
+        url = f"{self.host}/customers/{customer_id}/orders"
         return self._request(url=url)
 
     def get_products(self) -> list:

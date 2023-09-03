@@ -92,7 +92,7 @@ class TestERP:
         erp_util.current_API.get_products.return_value = fake_legacy_products
         products = erp_util.get_products(sorted_by="created")
 
-        expected_product = [
+        expected_products = [
             {
                 "createdAt":"2023-08-29T22:55:14.728Z",
                 "name":"Paula Hodkiewicz",
@@ -128,7 +128,7 @@ class TestERP:
             }
         ]
 
-        assert products == expected_product
+        assert products == expected_products
 
     def test_get_products_sorted_by_price(self, mocker):
 
@@ -137,7 +137,7 @@ class TestERP:
         erp_util.current_API.get_products.return_value = fake_legacy_products
         products = erp_util.get_products(sorted_by="price")
 
-        expected_product = [
+        expected_products = [
             {
                 "createdAt":"2023-08-27T22:55:14.728Z",
                 "name":"Titi",
@@ -172,6 +172,31 @@ class TestERP:
                 "id":"53"
             }
         ]
+
+        assert products == expected_products
+
+    def test_get_products_filter_by_color(self, mocker):
+
+        erp_util = ERPUtil()
+        erp_util.current_API = mocker.MagicMock()
+        erp_util.current_API.get_products.return_value = fake_legacy_products
+        products = erp_util.get_products(color="purple")
+
+        expected_products = [
+            {
+                "createdAt":"2023-08-27T22:55:14.728Z",
+                "name":"Titi",
+                "details":{
+                    "price":"39.00",
+                    "description":"Un incroyable produit",
+                    "color":"purple"
+                },
+                "stock":2464,
+                "id":"26"
+            }
+        ]
+
+        assert products == expected_products
 
     def test_get_product(self, mocker):
 
@@ -183,3 +208,26 @@ class TestERP:
         expected_product = fake_legacy_product_26
 
         assert product == expected_product
+
+    def test_get_orders(self, mocker):
+
+        erp_util = ERPUtil()
+        erp_util.current_API = mocker.MagicMock()
+        erp_util.current_API.get_products.return_value = fake_legacy_products
+        products = erp_util.get_products(color="purple")
+
+        expected_products = [
+            {
+                "createdAt":"2023-08-27T22:55:14.728Z",
+                "name":"Titi",
+                "details":{
+                    "price":"39.00",
+                    "description":"Un incroyable produit",
+                    "color":"purple"
+                },
+                "stock":2464,
+                "id":"26"
+            }
+        ]
+
+        assert products == expected_products

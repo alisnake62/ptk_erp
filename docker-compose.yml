@@ -6,15 +6,12 @@ services:
     build:
       context: .
     container_name: ptk_erp
-    command: "poetry run flask run --host=0.0.0.0"
+    command: "poetry run flask run --cert=adhoc --host=0.0.0.0"
     restart: always
     environment:
       FLASK_APP: main.py
-      FLASK_DEBUG: 1
-      FLASK_ENV: development
-      APP_PATH: /usr/src/app/
+      FLASK_DEBUG: 0
       APP_ENV: docker
-      APP_MODE: normal
     ports:
       - 8111:5000
     volumes:
@@ -28,10 +25,7 @@ services:
     environment:
       FLASK_APP: main.py
       FLASK_DEBUG: 1
-      FLASK_ENV: development
-      APP_PATH: /usr/src/app/
       APP_ENV: docker
-      APP_MODE: normal
     volumes:
       - .:/usr/src/app
 
