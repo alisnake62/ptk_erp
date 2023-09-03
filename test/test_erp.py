@@ -1,6 +1,6 @@
 from util.erp import ERPUtil
 
-# test 2
+# test 3
 fake_legacy_product_3 = {
     "createdAt":"2023-08-28T03:16:28.440Z",
     "name":"Rufus Pacocha",
