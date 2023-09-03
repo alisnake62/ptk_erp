@@ -67,7 +67,7 @@ class TestERP:
             }
         ]
 
-        assert stocks == False #expected_stocks
+        assert stocks == expected_stocks
 
     def test_get_stock(self, mocker):
 
