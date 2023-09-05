@@ -3,3 +3,4 @@ __pycache__
 env
 prod.sh
 resellers.json
+cache_legacy.json
