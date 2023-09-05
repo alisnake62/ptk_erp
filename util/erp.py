@@ -52,3 +52,19 @@ class ERPUtil:
 
     def get_product(self, product_id: str) -> dict:
         return self.current_API.get_product(product_id=product_id)
+
+    def get_stock_volume(self) -> int:
+
+        products = self.current_API.get_products()
+
+        stock_volume = 0
+        for product in products:
+            stock_volume += product["stock"]
+
+        return stock_volume
+
+    def get_stock_volume_by_product(self, product_id: str) -> int:
+
+        product = self.current_API.get_product(product_id=product_id)
+
+        return product["stock"]

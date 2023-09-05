@@ -33,7 +33,7 @@ fake_legacy_product_26 = {
     "stock":2464,
     "id":"26"
 }
-# test
+
 fake_legacy_products = [
     fake_legacy_product_3,
     fake_legacy_product_53,
@@ -231,3 +231,23 @@ class TestERP:
         ]
 
         assert products == expected_products
+
+    def test_get_stock_volume(self, mocker):
+
+        erp_util = ERPUtil()
+        erp_util.current_API = mocker.MagicMock()
+        erp_util.current_API.get_products.return_value = fake_legacy_products
+
+        stock_volume = erp_util.get_stock_volume()
+
+        assert stock_volume == 73254 + 1609 + 2464
+
+    def test_get_stock_volume_by_product(self, mocker):
+
+        erp_util = ERPUtil()
+        erp_util.current_API = mocker.MagicMock()
+        erp_util.current_API.get_product.return_value = fake_legacy_product_3
+
+        stock_volume = erp_util.get_stock_volume_by_product(product_id="3")
+
+        assert stock_volume == 73254

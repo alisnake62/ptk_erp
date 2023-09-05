@@ -88,6 +88,28 @@ def get_product(product_id):
 
     return wrap_result(request=request, result=product, reseller=reseller)
 
+@app.route("/v1/stock_volume")
+def get_stock_volume():
+
+    try:
+        token = request.authorization.token
+        reseller = reseller_util.get_reseller_by_token(token=token)
+    except:
+        return "incorrect API token", 403
+
+    return wrap_result(request=request, result=erp_util.get_stock_volume(), reseller=reseller)
+
+@app.route("/v1/stock_volume/<product_id>")
+def get_stock_volume_by_product(product_id):
+
+    try:
+        token = request.authorization.token
+        reseller = reseller_util.get_reseller_by_token(token=token)
+    except:
+        return "incorrect API token", 403
+
+    stock_volume = erp_util.get_stock_volume_by_product(product_id=product_id)
+    return wrap_result(request=request, result=stock_volume, reseller=reseller)
 
 
 if __name__ == "__main__":
