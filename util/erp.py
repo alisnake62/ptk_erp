@@ -68,3 +68,33 @@ class ERPUtil:
         product = self.current_API.get_product(product_id=product_id)
 
         return product["stock"]
+
+    def get_orders(self) -> list:
+
+        customers = self.current_API.get_customers()
+
+        orders = []
+        for customer in customers:
+            customer_orders = self.current_API.get_orders(customer_id=customer["id"])
+            orders += customer_orders
+
+        return orders
+
+    def get_order(self, order_id: str) -> dict:
+
+        orders = self.get_orders()
+
+        for order in orders:
+            if order["id"] == order_id:
+                return order
+
+        return None
+
+    def get_order_products(self, order_id: str) -> list:
+
+        order = self.get_order(order_id=order_id)
+
+        if order is None:
+            raise Exception()
+
+        return order["products"]

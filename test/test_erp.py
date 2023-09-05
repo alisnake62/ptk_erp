@@ -34,10 +34,97 @@ fake_legacy_product_26 = {
     "id":"26"
 }
 
+fake_legacy_customer_7 = {
+    "createdAt":"2023-08-29T17:41:41.077Z",
+    "name":"Eugene Pfannerstill",
+    "username":"Kyle_Sawayn66",
+    "firstName":"Dahlia",
+    "lastName":"Jaskolski",
+    "address":{
+        "postalCode":"51160",
+        "city":"Phoenix"
+    },
+    "profile":{
+        "firstName":"Vidal",
+        "lastName":"Kuhic"
+    },
+    "company":{
+        "companyName":"Harber - Steuber"
+    },
+    "id":"7",
+    "orders":[
+        {
+            "createdAt":"2023-08-30T10:54:50.688Z",
+            "id":"1",
+            "customerId":"7"
+        },
+        {
+            "createdAt":"2023-08-29T17:17:39.378Z",
+            "id":"51",
+            "customerId":"7"
+        }
+    ]
+}
+fake_legacy_customer_12 = {
+    "createdAt":"2023-08-30T17:41:41.077Z",
+    "name":"Martin Dupont",
+    "username":"martinmatin",
+    "firstName":"Martin",
+    "lastName":"Dupont",
+    "address":{
+        "postalCode":"31400",
+        "city":"Toulouse"
+    },
+    "profile":{
+        "firstName":"Martin",
+        "lastName":"Dupont"
+    },
+    "company":{
+        "companyName":"Rubik's Cube Corporacy"
+    },
+    "id":"12",
+    "orders":[
+        {
+            "createdAt":"2023-08-27T10:54:50.688Z",
+            "id":"3",
+            "customerId":"12"
+        }
+    ]
+}
+
+fake_legacy_order_1 = {
+    "createdAt":"2023-08-30T10:54:50.688Z",
+    "id":"1",
+    "customerId":"7",
+    "products":[
+        fake_legacy_product_3,
+        fake_legacy_product_53
+    ]
+}
+fake_legacy_order_51 = {
+    "createdAt":"2023-08-29T17:17:39.378Z",
+    "id":"51",
+    "customerId":"7",
+    "products":[]
+}
+fake_legacy_order_3 = {
+    "createdAt":"2023-08-27T10:54:50.688Z",
+    "id":"3",
+    "customerId":"12",
+    "products":[
+        fake_legacy_product_26
+    ]
+}
+
 fake_legacy_products = [
     fake_legacy_product_3,
     fake_legacy_product_53,
     fake_legacy_product_26
+]
+
+fake_legacy_customers = [
+    fake_legacy_customer_7,
+    fake_legacy_customer_12
 ]
 
 class TestERP:
@@ -251,3 +338,47 @@ class TestERP:
         stock_volume = erp_util.get_stock_volume_by_product(product_id="3")
 
         assert stock_volume == 73254
+
+    def test_get_orders(self, mocker):
+
+        erp_util = ERPUtil()
+        erp_util.current_API = mocker.MagicMock()
+        erp_util.current_API.get_customers.return_value = fake_legacy_customers
+        erp_util.current_API.get_orders.side_effect = [[fake_legacy_order_1, fake_legacy_order_51], [fake_legacy_order_3]]
+
+        orders = erp_util.get_orders()
+
+        expected_orders = [
+            fake_legacy_order_1,
+            fake_legacy_order_51,
+            fake_legacy_order_3
+        ]
+
+        assert orders == expected_orders
+
+    def test_get_order(self, mocker):
+
+        erp_util = ERPUtil()
+        erp_util.current_API = mocker.MagicMock()
+        erp_util.current_API.get_customers.return_value = fake_legacy_customers
+        erp_util.current_API.get_orders.side_effect = [[fake_legacy_order_1, fake_legacy_order_51], [fake_legacy_order_3]]
+
+        orders = erp_util.get_order(order_id = "1")
+
+        assert orders == fake_legacy_order_1
+
+    def test_get_order_products(self, mocker):
+
+        erp_util = ERPUtil()
+        erp_util.current_API = mocker.MagicMock()
+        erp_util.current_API.get_customers.return_value = fake_legacy_customers
+        erp_util.current_API.get_orders.side_effect = [[fake_legacy_order_1, fake_legacy_order_51], [fake_legacy_order_3]]
+
+        products = erp_util.get_order_products(order_id="1")
+
+        expected_products = [
+            fake_legacy_product_3,
+            fake_legacy_product_53
+        ]
+
+        assert products == expected_products

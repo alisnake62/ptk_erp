@@ -111,6 +111,48 @@ def get_stock_volume_by_product(product_id):
     stock_volume = erp_util.get_stock_volume_by_product(product_id=product_id)
     return wrap_result(request=request, result=stock_volume, reseller=reseller)
 
+@app.route("/v1/orders")
+def get_orders():
+
+    try:
+        token = request.authorization.token
+        reseller = reseller_util.get_reseller_by_token(token=token)
+    except:
+        return "incorrect API token", 403
+
+    return wrap_result(request=request, result=erp_util.get_orders(), reseller=reseller)
+
+@app.route("/v1/orders/<order_id>")
+def get_order(order_id):
+
+    try:
+        token = request.authorization.token
+        reseller = reseller_util.get_reseller_by_token(token=token)
+    except:
+        return "incorrect API token", 403
+
+    order = erp_util.get_order(order_id=order_id)
+
+    if order is None:
+        return "order not found", 404
+
+    return wrap_result(request=request, result=order, reseller=reseller)
+
+@app.route("/v1/orders/<order_id>/products")
+def get_order_products(order_id):
+
+    try:
+        token = request.authorization.token
+        reseller = reseller_util.get_reseller_by_token(token=token)
+    except:
+        return "incorrect API token", 403
+
+    try:
+        products = erp_util.get_order_products(order_id=order_id)
+    except:
+        return "order not found", 404
+
+    return wrap_result(request=request, result=products, reseller=reseller)
 
 if __name__ == "__main__":
     app.run(debug=dev_env, host = "0.0.0.0", ssl_context='adhoc')
