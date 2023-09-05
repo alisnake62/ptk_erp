@@ -33,7 +33,7 @@ fake_legacy_product_26 = {
     "stock":2464,
     "id":"26"
 }
-
+# test
 fake_legacy_products = [
     fake_legacy_product_3,
     fake_legacy_product_53,
